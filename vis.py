@@ -27,6 +27,9 @@ def quality_distribution(df):
     plt.xticks(quality_counts.index)
     plt.show()
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
 
 def alcohol_distribution(df):
     # Define the bin edges and labels
@@ -63,6 +66,10 @@ def alcohol_distribution(df):
 
     plt.show()
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
 def alcohol_vs_quanity(df):
     # Define custom labels for "quality"
     bins_q = [3, 5, 6, 9]
@@ -78,7 +85,7 @@ def alcohol_vs_quanity(df):
     plt.figure(figsize=(6, 6))
     quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
     plt.title('Average Alcohol Content', fontsize=20)
-    plt.xlabel('Quality', fontsize=18)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
     plt.xticks(rotation=0, fontsize=16)
     plt.grid(axis='y')
 
@@ -102,5 +109,104 @@ def alcohol_vs_quanity(df):
     # Remove the "quality_bins" column from the DataFrame
     df.drop(columns=['quality_bins'], inplace=True)
 
+    # Use plt.tight_layout() to ensure proper spacing
+    plt.tight_layout()
+
+    # Show the plot
+    plt.show()
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+def density_vs_quantity(df):
+    # Define custom labels for "quality"
+    bins_q = [3, 5, 6, 9]
+    labels_q = ['Low', 'Med', 'High']
+
+    # Create a new column "quality_bins" to store the bin labels
+    df['quality_bins'] = pd.cut(df['quality'], bins=bins_q, labels=labels_q)
+
+    # Group the data by "quality" and calculate the mean alcohol content for each quality category
+    quality_means = df.groupby('quality_bins')['density'].mean().round(6)
+
+    # Create a bar plot
+    plt.figure(figsize=(6, 6))
+    quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
+    plt.title('Average density', fontsize=20)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
+    plt.xticks(rotation=0, fontsize=16)
+    plt.grid(axis='y')
+
+    # Adding average on top of each bar
+    for i, count in enumerate(quality_means.values):
+        plt.text(i, count, '{:.4f}'.format(count), ha='center', va='bottom', fontsize=16)
+
+    # Removing the y-axis
+    plt.gca().get_yaxis().set_visible(False)
+
+    # Removing left, right, and top lines of the current axes
+    plt.gca().spines['left'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['bottom'].set_visible(False)
+    
+    plt.tick_params(axis='x', which='both', bottom=False, top=False)
+
+    plt.ylim(0.98711, 1)
+
+    # Remove the "quality_bins" column from the DataFrame
+    df.drop(columns=['quality_bins'], inplace=True)
+
+    # Use plt.tight_layout() to ensure proper spacing
+    plt.tight_layout()
+    # Show the plot
+    plt.show()
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+def v_acidity_vs_quantity(df):
+    # Define custom labels for "quality"
+    bins_q = [3, 5, 6, 9]
+    labels_q = ['Low', 'Med', 'High']
+
+    # Create a new column "quality_bins" to store the bin labels
+    df['quality_bins'] = pd.cut(df['quality'], bins=bins_q, labels=labels_q)
+
+    # Group the data by "quality" and calculate the mean alcohol content for each quality category
+    quality_means = df.groupby('quality_bins')['volatile_acidity'].mean().round(6)
+
+    # Create a bar plot
+    plt.figure(figsize=(6, 6))
+    quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
+    plt.title('Average Volatile Acidity', fontsize=20)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
+    plt.xticks(rotation=0, fontsize=16)
+    plt.grid(axis='y')
+
+    # Adding average on top of each bar
+    for i, count in enumerate(quality_means.values):
+        plt.text(i, count, '{:.2f}'.format(count), ha='center', va='bottom', fontsize=16)
+
+    # Removing the y-axis
+    plt.gca().get_yaxis().set_visible(False)
+
+    # Removing left, right, and top lines of the current axes
+    plt.gca().spines['left'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    
+    plt.gca().spines['bottom'].set_visible(False)
+    plt.tick_params(axis='x', which='both', bottom=False, top=False)
+    
+    plt.ylim(0.1, .5)
+
+    # Remove the "quality_bins" column from the DataFrame
+    df.drop(columns=['quality_bins'], inplace=True)
+
+    # Use plt.tight_layout() to ensure proper spacing
+    plt.tight_layout()
     # Show the plot
     plt.show()
