@@ -27,6 +27,9 @@ def quality_distribution(df):
     plt.xticks(quality_counts.index)
     plt.show()
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
 
 def alcohol_distribution(df):
     # Define the bin edges and labels
@@ -62,6 +65,10 @@ def alcohol_distribution(df):
     df.drop(columns=['alcohol_bins'], inplace=True)
 
     plt.show()
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
 
 def alcohol_vs_quanity(df):
     # Define custom labels for "quality"
@@ -108,6 +115,10 @@ def alcohol_vs_quanity(df):
     # Show the plot
     plt.show()
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
 def density_vs_quantity(df):
     # Define custom labels for "quality"
     bins_q = [3, 5, 6, 9]
@@ -123,7 +134,7 @@ def density_vs_quantity(df):
     plt.figure(figsize=(6, 6))
     quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
     plt.title('Average density', fontsize=20)
-    plt.xlabel('Quality', fontsize=18)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
     plt.xticks(rotation=0, fontsize=16)
     plt.grid(axis='y')
 
@@ -152,6 +163,10 @@ def density_vs_quantity(df):
     # Show the plot
     plt.show()
 
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------------------------
+
 def v_acidity_vs_quantity(df):
     # Define custom labels for "quality"
     bins_q = [3, 5, 6, 9]
@@ -164,10 +179,10 @@ def v_acidity_vs_quantity(df):
     quality_means = df.groupby('quality_bins')['volatile_acidity'].mean().round(6)
 
     # Create a bar plot
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(6, 6))
     quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
     plt.title('Average Volatile Acidity', fontsize=20)
-    plt.xlabel('Quality', fontsize=18)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
     plt.xticks(rotation=0, fontsize=16)
     plt.grid(axis='y')
 
