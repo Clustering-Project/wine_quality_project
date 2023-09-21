@@ -76,16 +76,15 @@ def alcohol_vs_quanity(df):
 
     # Create a bar plot
     plt.figure(figsize=(6, 6))
-    quality_means.plot(kind='bar', color='lightseagreen')
-    plt.title('Average Alcohol Content by Quality Category')
-    plt.xlabel('Quality')
-    plt.ylabel('Average Alcohol Content')
-    plt.xticks(rotation=0)
+    quality_means.plot(kind='bar', color='lightseagreen', width=0.7)
+    plt.title('Average Alcohol Content', fontsize=20)
+    plt.xlabel('Quality', fontsize=18)
+    plt.xticks(rotation=0, fontsize=16)
     plt.grid(axis='y')
 
     # Adding average on top of each bar
     for i, count in enumerate(quality_means.values):
-        plt.text(i, count, str(count), ha='center', va='bottom', fontsize=16)
+        plt.text(i, count,  '{:.1f}%'.format(count), ha='center', va='bottom', fontsize=16)
 
     # Removing the y-axis
     plt.gca().get_yaxis().set_visible(False)
@@ -94,6 +93,9 @@ def alcohol_vs_quanity(df):
     plt.gca().spines['left'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['bottom'].set_visible(False)
+        # Remove the ticks (not labels) of the x-axis
+    plt.tick_params(axis='x', which='both', bottom=False, top=False)
 
     plt.ylim(8, 13)
 
