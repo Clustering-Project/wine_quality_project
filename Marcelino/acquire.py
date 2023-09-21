@@ -87,11 +87,11 @@ def dummies(train, val, test):
     This function returns your train, val, and test subsets with dummies added.
     '''
     
-    train = pd.get_dummies(train)
+    train = pd.get_dummies(train, drop_first = True)
     
-    val = pd.get_dummies(val)
+    val = pd.get_dummies(val, drop_first = True)
     
-    test = pd.get_dummies(test)
+    test = pd.get_dummies(test, drop_first = True)
     
     return train, val, test
 
