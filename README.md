@@ -5,7 +5,7 @@ First team project!
 
 ## Goal
 
-* The purpose of this model is to group and label data based off the quality.
+* The purpose of this model is to group wines into clusters based on their similarities in terms of the selected features.
 * My goal is to find specific features that have similarities and group those features and label them using a clustering model.
 
 ## Initial hypotheses
@@ -28,7 +28,7 @@ First team project!
 |sulphates              | measure of compounds added to wine as a preservative.                  |
 |alcohol                | alcohol by volume                                                      |
 |quality                | rating of the wine's overall quality                                   |
-|type                   | red or white whine                                                     |
+|type                   | red or white wine                                                     |
 
 
 ## Planning:
@@ -36,7 +36,7 @@ Questions to ask about the data set based off of what I want my model to predict
 - Do any features have a correlation with quality?. 
 - What features significantly affect quality?
 
-- Final report should be in .ipynb, Modules should be in .py, Predictions should be in .csv.
+- Final report should be in .ipynb, Modules should be in .py.
 - Audience will be lead data scientist.
 - Determine correlation between features and target variable.
 - Develop my null hypothsisis and alternative hypothesis.
@@ -48,7 +48,7 @@ Questions to ask about the data set based off of what I want my model to predict
 - I used pandas to read in the data onto a jupyter notebook.
 
 ## Preparation:
-- 
+- replaced blank spaces with underscores for columns.
 
 ## Exploration & pre-processing:
 - Made visuals and used stats to understand which features had a significant correlation, relationship
@@ -62,7 +62,8 @@ Questions to ask about the data set based off of what I want my model to predict
 - Made recommendations
 
 ## Key findings, recommendations, and takeaways
-- 
+- alcohol seems to be a key driver for quality.
+
 ## Instructions or an explanation of how someone else can reproduce project and findings
 
 Enviroment setup: 
