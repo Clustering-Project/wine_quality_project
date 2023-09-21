@@ -36,12 +36,12 @@ def split_data(df, target=None) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
     train_val, test = train_test_split(
         df, 
         train_size=0.8, 
-        random_state=1349,
+        random_state=42,
         stratify=target)
     train, validate = train_test_split(
         train_val,
         train_size=0.7,
-        random_state=1349,
+        random_state=42,
         stratify=target)
     return train, validate, test
 
@@ -71,7 +71,7 @@ def xy_split(df):
     This function returns subsets of your data. One with all columns except your target variable, and the other with only the target variable.
     '''
     
-    return df.drop(columns= 'tax_value'), df.tax_value
+    return df.drop(columns= 'quality'), df.quality
 
 
 def dummies(train, val, test):
