@@ -6,8 +6,9 @@ import seaborn as sns
 from explore import cluster_alc_dens
 
 def quality_distribution(df):
+    # count the values for each quality category
     quality_counts = df['quality'].value_counts().sort_index()
-
+    # create the plot
     plt.figure(figsize=(6, 5))
     ax = plt.bar(quality_counts.index, quality_counts.values,  color='lightseagreen')
 

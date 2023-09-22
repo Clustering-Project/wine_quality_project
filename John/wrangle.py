@@ -17,6 +17,8 @@ def acquire_wine():
 
     # Concatenate the df_red and df_white dataframes vertically, ignoring the original indices, and assign the result to the df dataframe
     df = pd.concat([df_red, df_white], ignore_index=True, axis=0)
+
+    df.columns = [col.lower().replace(' ', '_').replace('.', '_') for col in df.columns]
     
     return df
 

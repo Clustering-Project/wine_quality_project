@@ -27,10 +27,10 @@ def acquire_wine():
 #     return df
 
 def wine_train_val_test(df, seed = 42):
-
+    # split 70/30
     train, val_test = train_test_split(df, train_size = 0.7,
                                        random_state = seed)
-    
+    # split the remainder 30% 50/50
     val, test = train_test_split(val_test, train_size = 0.5,
                                  random_state = seed)
     
@@ -38,14 +38,16 @@ def wine_train_val_test(df, seed = 42):
 
 
 def wrangle_wine():
+    # get the initial df
     df = acquire_wine()
-    
+    # split into train val test
     train, val, test = wine_train_val_test(df, seed = 42)
     
     return train, val, test
 
 
 def model_pipeline(df):
+    
     train, val, test = wine_train_val_test(df)
     
     #train, val, test = scale_train_val_test(train, val, test)

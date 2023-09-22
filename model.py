@@ -145,3 +145,97 @@ def train_model(model_name, X_train, y_train, X_val, y_val, model_results=None):
     model_results = update_model_results(model_name, train_rmse_formatted, val_rmse_formatted, model_results)
 
     return model, model_results
+
+
+def test_model(model, X_test, y_test, model_results=None):
+    
+    # Make predictions on the test set
+    test_preds = model.predict(X_test)
+    
+    # Calculate RMSE on the test set
+    test_rmse = eval_model(y_test, test_preds)
+    
+    # Print RMSE values for training and validation sets (formatted)
+    test_rmse_formatted = "{:,.2f}".format(test_rmse)
+    #print(f'The train RMSE is {train_rmse_formatted}.')
+    print(f'The test RMSE is {test_rmse_formatted}.')
+    
+    # Extract the name of the model class without the module path
+    model_name = model.__class__.__name__
+
+    # Create a DataFrame with model name and RMSE results
+    results_df = pd.DataFrame({
+        'Model': [model_name],
+        'Test_RMSE': [test_rmse_formatted],
+    })
+    
+    # Check if model_results already exists
+    if model_results is not None:
+        # Concatenate results with existing DataFrame
+        model_results = pd.concat([model_results, results_df], ignore_index=True)
+    else:
+        # Create a new DataFrame if it doesn't exist
+        model_results = results_df
+
+    
+    return model_results
+
+def train_hyper(model_name, X_train, y_train, X_val, y_val, model_results=None):
+    """
+    Train a machine learning model, evaluate its performance, and update the model results DataFrame.
+
+    Parameters:
+        model_name (class): The machine learning model class (e.g., LinearRegression).
+        X_train (pd.DataFrame): The feature matrix of the training dataset.
+        y_train (pd.Series): The target variable of the training dataset.
+        X_val (pd.DataFrame): The feature matrix of the validation dataset.
+        y_val (pd.Series): The target variable of the validation dataset.
+        model_results (pd.DataFrame, optional): An existing DataFrame containing model results. Default is None.
+
+    Returns:
+    model: Trained machine learning model.
+    model_results: Updated DataFrame containing model name and RMSE results.
+
+    Note:
+        - The function trains a machine learning model on the provided training data.
+        - It evaluates the model's performance on both the training and validation sets using RMSE.
+        - RMSE values are printed for both sets in a formatted manner.
+        - The model name is extracted from the class and used for updating the model results DataFrame.
+        - If `model_results` is provided, it is updated with the new model's results.
+        - If `model_results` is not provided, a new DataFrame is created to store the results.
+    """
+    # Fit the model on the training data
+    model = model_name(
+    max_depth=30,
+    max_features='sqrt',
+    min_samples_leaf=1,
+    min_samples_split=2,
+    n_estimators=300
+    )
+    model.fit(X_train, y_train)
+    
+    # Make predictions on the training set
+    train_preds = model.predict(X_train)
+    
+    # Calculate RMSE on the training set
+    train_rmse = eval_model(y_train, train_preds)
+    
+    # Make predictions on the validation set
+    val_preds = model.predict(X_val)
+    
+    # Calculate RMSE on the validation set
+    val_rmse = eval_model(y_val, val_preds)
+    
+    # Print RMSE values for training and validation sets (formatted)
+    train_rmse_formatted = "{:,.2f}".format(train_rmse)
+    val_rmse_formatted = "{:,.2f}".format(val_rmse)
+    print(f'The train RMSE is {train_rmse_formatted}.')
+    print(f'The validate RMSE is {val_rmse_formatted}.')
+    
+    # Extract the name of the model class without the module path
+    model_name = model.__class__.__name__
+
+    # Update the model results DataFrame
+    model_results = update_model_results(model_name, train_rmse_formatted, val_rmse_formatted, model_results)
+
+    return model, model_results

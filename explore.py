@@ -9,18 +9,18 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 
 
-from wrangle import wine_train_val_test
+from wrangle import wine_train_val_test, acquire_wine
 
 # -----------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------
 
 def spearmanr_test(df,col_name):
-    # Assuming you have a DataFrame named df with columns 'quality' and 'alcohol'
+    # Perform spearmanr test
     spearman_corr, p_value = stats.spearmanr(df['quality'], df[col_name])
 
     # Interpret the results
     alpha = 0.05  # Set your desired significance level
-
+    # Print results
     if p_value < alpha:
         print(f"There is a statistically significant Spearman's rank correlation (p-value = {p_value:.4f}, corr = {spearman_corr:.4f}).")
     else:
@@ -324,6 +324,9 @@ def hot_encode(df):
     
     return df
 
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+
 def xy_split(df):
     """
     Split the input DataFrame into feature matrix (X) and target vector (y).
@@ -338,7 +341,15 @@ def xy_split(df):
     # Split the dataset into feature columns (X) and target column (y)
     return df.drop(columns=['quality']), df.quality
 
-def data_pipeline(df):
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+
+def data_pipeline():
+    df = acquire_wine()
+
+    df = df[df.density <= 1.01]
+    df = df[df.alcohol <= 14.04]
+    
     train, val, test = wine_train_val_test(df)
     
     #train, val, test = scale_train_val_test(train, val, test)
@@ -349,7 +360,46 @@ def data_pipeline(df):
     X_train, y_train = xy_split(train)
     X_val, y_val = xy_split(val)
     X_test, y_test = xy_split(test)
-    return train, val, test, X_train, y_train, X_val, y_val, X_test, y_test
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+
+def bravo_pipeline():
+    df = acquire_wine()
+
+    df = df[df.density <= 1.01]
+    df = df[df.alcohol <= 14.04]
+    
+    mms = MinMaxScaler()
+    # Select columns to scale (excluding 'value')
+    to_scale = df.select_dtypes(include=['float', 'int']).columns.tolist()
+    to_scale.remove('quality')
+    
+    
+    df[to_scale] = mms.fit_transform(df[to_scale])
+
+    kmeans = KMeans(n_clusters=3, n_init='auto')
+    features = df[['alcohol', 'density']]
+    kmeans.fit(features)
+
+    df['alc_dens_cluster'] = kmeans.labels_
+
+    train, val, test = wine_train_val_test(df)
+    
+    #train, val, test = scale_train_val_test(train, val, test)
+    train = hot_encode(train)
+    val = hot_encode(val)
+    test = hot_encode(test)
+    
+    X_train, y_train = xy_split(train)
+    X_val, y_val = xy_split(val)
+    X_test, y_test = xy_split(test)
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+
 
 def outliers(df):
     df = df[df.density <= 1.01]
@@ -361,6 +411,9 @@ def outliers(df):
     df['alc_dens_cluster'] = kmeans.labels_
 
     return df
+
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 
 def cluster_alc_dens(df):
     df = df[df.density <= 1.01]
@@ -384,7 +437,3 @@ def cluster_alc_dens(df):
     df['alc_dens_cluster'] = kmeans.labels_
     
     return df
-
-    sns.scatterplot(data=df, x='alcohol', y='density', hue='alc_dens_cluster', palette='deep')
-    #plt.ylim(min(train_scaled.density), .5)
-    plt.show
