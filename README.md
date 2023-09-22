@@ -1,8 +1,6 @@
 # wine_quality_project
 First team project!
 
-# Regression-Model-Project
-
 ## Goal
 
 * Find specific features that have similarities and group those features and label them using a clustering model.
