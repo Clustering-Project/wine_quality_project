@@ -60,9 +60,11 @@ def perform_chi2_test(df, variable1, variable2):
     print("Chi-Squared Test of Independence:")
     print(f"Chi-Squared Statistic: {chi2:.4f}")
     print(f"P-value: {p:.4f}")
-    print(f"Degrees of Freedom: {dof}")
-    print("Expected Frequencies:")
-    print(expected)
+    # print(f"Degrees of Freedom: {dof}")
+    # print("Expected Frequencies:")
+    # expected_table = pd.DataFrame(expected, index=contingency_table.index, columns=contingency_table.columns)
+    
+    # print(expected_table)
 
 # -----------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------
