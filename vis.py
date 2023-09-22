@@ -3,10 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from explore import cluster_alc_dens
+
 def quality_distribution(df):
     quality_counts = df['quality'].value_counts().sort_index()
 
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(6, 5))
     ax = plt.bar(quality_counts.index, quality_counts.values,  color='lightseagreen')
 
     # # Add value counts on top of each bar
@@ -220,5 +222,34 @@ def v_acidity_vs_quantity(df):
 
     # Use plt.tight_layout() to ensure proper spacing
     plt.tight_layout()
+    # Show the plot
+    plt.show()
+
+def qual_cluster(df):
+    
+    df = cluster_alc_dens(df)
+    # Define a custom legend labels dictionary
+    legend_labels = {0: 'Low', 1: 'Med', 2: 'High'}
+
+    # Create the scatterplot with Seaborn
+    sns.scatterplot(data=df, x='alcohol', y='density', hue='alc_dens_cluster', palette='deep')
+
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    
+    # Set the title
+    plt.title("Alcohol vs. Density", fontsize=20)
+
+    # Modify the legend title and labels
+    plt.legend(title="Quality Cluster", labels=[legend_labels[i] for i in range(3)])
+    
+    # Increase the font size of x and y labels
+    plt.xlabel("Alcohol", fontsize=16, labelpad=10)  # Adjust the fontsize as needed
+    plt.ylabel("Density", fontsize=16)  # Adjust the fontsize as needed
+    
+    # Use plt.tight_layout() to ensure proper spacing
+    plt.tight_layout()
+    # Show the plot
+    
     # Show the plot
     plt.show()

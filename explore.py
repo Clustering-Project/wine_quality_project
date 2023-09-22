@@ -1,11 +1,13 @@
 import pandas as pd
 
 from scipy import stats
+from scipy.stats import chi2_contingency
 
 from sklearn.feature_selection import SelectKBest, f_regression, RFE
 from sklearn.linear_model import LinearRegression, Lasso
-
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
+
 
 from wrangle import wine_train_val_test
 
@@ -23,6 +25,44 @@ def spearmanr_test(df,col_name):
         print(f"There is a statistically significant Spearman's rank correlation (p-value = {p_value:.4f}, corr = {spearman_corr:.4f}).")
     else:
         print(f"There is no statistically significant Spearman's rank correlation (p-value = {p_value:.4f}, corr = {spearman_corr:.4f}).")
+
+# -----------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+
+def perform_chi2_test(df, variable1, variable2):
+    """
+    Perform the Chi-Squared Test of Independence and print the results.
+
+    Parameters:
+    - data: DataFrame containing the two categorical variables.
+    - variable1: Name of the first categorical variable.
+    - variable2: Name of the second categorical variable.
+
+    Returns:
+    - None (results are printed).
+    """
+    # Create a contingency table
+    df = cluster_alc_dens(df)
+        
+    # Define custom labels for "quality"
+    bins_q = [3, 5, 6, 9]
+    labels_q = ['Low', 'Med', 'High']
+
+    # Create a new column "quality_bins" to store the bin labels
+    df['quality_bins'] = pd.cut(df['quality'], bins=bins_q, labels=labels_q)
+
+    contingency_table = pd.crosstab(df[variable1], df[variable2])
+
+    # Perform the Chi-Squared Test
+    chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+    # Print the results
+    print("Chi-Squared Test of Independence:")
+    print(f"Chi-Squared Statistic: {chi2:.4f}")
+    print(f"P-value: {p:.4f}")
+    print(f"Degrees of Freedom: {dof}")
+    print("Expected Frequencies:")
+    print(expected)
 
 # -----------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------
@@ -308,3 +348,41 @@ def data_pipeline(df):
     X_val, y_val = xy_split(val)
     X_test, y_test = xy_split(test)
     return train, val, test, X_train, y_train, X_val, y_val, X_test, y_test
+
+def outliers(df):
+    df = df[df.density <= 1.01]
+    df = df[df.alcohol <= 14.04]
+    
+    kmeans = KMeans(n_clusters=3, n_init='auto')
+    features = df[['alcohol', 'density']]
+    kmeans.fit(features)
+    df['alc_dens_cluster'] = kmeans.labels_
+
+    return df
+
+def cluster_alc_dens(df):
+    df = df[df.density <= 1.01]
+    df = df[df.alcohol <= 14.04]
+
+
+    mms = MinMaxScaler()
+
+    # Select columns to scale (excluding 'value')
+    to_scale = df.select_dtypes(include=['float', 'int']).columns.tolist()
+    to_scale.remove('quality')
+
+
+    # Apply Min-Max scaling to the selected columns
+    df[to_scale] = mms.fit_transform(df[to_scale])
+
+    kmeans = KMeans(n_clusters=3, n_init='auto')
+    features = df[['alcohol', 'density']]
+    kmeans.fit(features)
+
+    df['alc_dens_cluster'] = kmeans.labels_
+    
+    return df
+
+    sns.scatterplot(data=df, x='alcohol', y='density', hue='alc_dens_cluster', palette='deep')
+    #plt.ylim(min(train_scaled.density), .5)
+    plt.show
