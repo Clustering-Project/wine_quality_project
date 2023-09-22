@@ -1,6 +1,10 @@
 # wine_quality_project
 First team project!
 
+## Description
+
+We will explore the relationships between a range of factors including acidity levels (fixed, volatile, and citric), residual sugar, chloride concentration, and others, with the goal of identifying the key drivers of wine quality. To achieve this, we will employ a robust and comprehensive data analysis approach, incorporating both statistical modeling and machine learning techniques. Through this analysis, we aim to pinpoint the factors that exert the most significant influence on the overall quality of California wines, offering valuable insights to inform wine production and quality enhancement strategies.
+
 ## Goal
 
 * Find specific features that have similarities and group those features and label them using a clustering model.
@@ -46,10 +50,13 @@ Questions to ask about the data set based off of what I want my model to predict
   
 ## Acquisition:
 - Registered an account at data.world and downloaded the wine-quality dataset into a csv.
+- Note there were 2 separate files, Red and White wines. 
 - Used pandas to read in the csv file onto a jupyter notebook.
 
 ## Preparation:
+- Created a new column "type" and assigned red / white respectively
 - Replaced blank spaces with underscores for columns.
+- Concatenated the 2 csv files into a single csv file. 
 
 ## Exploration & pre-processing:
 - Made visuals and used stats to understand which features had a significant correlation, relationship with the target variable.
@@ -61,7 +68,7 @@ Questions to ask about the data set based off of what I want my model to predict
 
 Baseline = .88
 
-Test RMSE = .60
+Test RMSE = .59
 
 ## Delivery:
 - Deployed my model and a created a reproducable report

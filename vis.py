@@ -232,8 +232,15 @@ def qual_cluster(df):
     # Define a custom legend labels dictionary
     legend_labels = {0: 'Low', 1: 'Med', 2: 'High'}
 
+    # # Define a custom color palette
+    # custom_palette = {
+    #     0: 'lightseagreen',  # High cluster color
+    #     1: '#e29900',     # Color that goes well with lightseagreen for Med cluster
+    #     2: '#e53a52'    # Color that goes well with lightseagreen for Low cluster
+    # }
+
     # Create the scatterplot with Seaborn
-    sns.scatterplot(data=df, x='alcohol', y='density', hue='alc_dens_cluster', palette='deep')
+    sns.scatterplot(data=df, x='alcohol', y='density', hue='alc_dens_cluster', palette=['#e29900', '#e53a52', 'lightseagreen'])
 
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
@@ -242,7 +249,7 @@ def qual_cluster(df):
     plt.title("Alcohol vs. Density", fontsize=20)
 
     # Modify the legend title and labels
-    plt.legend(title="Quality Cluster", labels=[legend_labels[i] for i in range(3)])
+    plt.legend().set_visible(False) #title="Quality Cluster", labels=[legend_labels[i] for i in range(3)])
     
     # Increase the font size of x and y labels
     plt.xlabel("Alcohol", fontsize=16, labelpad=10)  # Adjust the fontsize as needed
