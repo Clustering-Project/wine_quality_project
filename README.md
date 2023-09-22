@@ -5,7 +5,7 @@ First team project!
 
 ## Goal
 
-* My goal is to find specific features that have similarities and group those features and label them using a clustering model.
+* Find specific features that have similarities and group those features and label them using a clustering model.
 * The purpose of the regression model is to predict quality based off features including those that the cluster model generated.
 
 ## Initial hypotheses
@@ -47,15 +47,15 @@ Questions to ask about the data set based off of what I want my model to predict
 - Create regression model
   
 ## Acquisition:
-- I registered an account at data.world and downloaded the wine-quality dataset into a csv.
-- I used pandas to read in the csv file onto a jupyter notebook.
+- Registered an account at data.world and downloaded the wine-quality dataset into a csv.
+- Used pandas to read in the csv file onto a jupyter notebook.
 
 ## Preparation:
-- replaced blank spaces with underscores for columns.
+- Replaced blank spaces with underscores for columns.
 
 ## Exploration & pre-processing:
 - Made visuals and used stats to understand which features had a significant correlation, relationship with the target variable.
-- I used top 2 features (alcohol, density) to create cluster
+- Used top 2 features (alcohol, density) to create cluster
 
 ## Modeling:
 - Created a regression model to predict quality of wine.
