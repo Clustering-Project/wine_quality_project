@@ -7,11 +7,19 @@ def quality_distribution(df):
     quality_counts = df['quality'].value_counts().sort_index()
 
     plt.figure(figsize=(8, 6))
-    ax = plt.bar(quality_counts.index, quality_counts.values)
+    ax = plt.bar(quality_counts.index, quality_counts.values,  color='lightseagreen')
 
-    # Add value counts on top of each bar
+    # # Add value counts on top of each bar
+    # for i, v in enumerate(quality_counts.values):
+    #     plt.text(quality_counts.index[i], v + 10, str(v), ha='center', va='bottom', fontsize=16)
+
+    # Add rounded value counts on top of each bar
     for i, v in enumerate(quality_counts.values):
-        plt.text(quality_counts.index[i], v + 10, str(v), ha='center', va='bottom')
+        if v >= 10:
+            rounded_value = round(v, -1)  # Round to the nearest 10th for values >= 10
+        else:
+            rounded_value = v  # Leave values less than 10 unchanged
+        plt.text(quality_counts.index[i], rounded_value + 10, str(rounded_value), ha='center', va='bottom', fontsize=16)
 
 
     # Removing the y-axis
@@ -22,9 +30,13 @@ def quality_distribution(df):
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
 
-    plt.xlabel('Quality')
-    plt.title('Distribution of Wine Quality')
-    plt.xticks(quality_counts.index)
+    plt.xlabel('Quality', fontsize=18, labelpad=20)
+    plt.title('Distribution of Wine Quality', fontsize=20)
+    plt.xticks(quality_counts.index, fontsize=16)
+    
+    # Use plt.tight_layout() to ensure proper spacing
+    plt.tight_layout()
+    
     plt.show()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------
@@ -43,7 +55,7 @@ def alcohol_distribution(df):
     alcohol_counts = df['alcohol_bins'].value_counts().sort_index()
 
     plt.figure(figsize=(4, 5))
-    ax = plt.bar(alcohol_counts.index, alcohol_counts.values)
+    ax = plt.bar(alcohol_counts.index, alcohol_counts.values,  color='lightseagreen')
 
     # Adding value counts on top of each bar
     for i, count in enumerate(alcohol_counts.values):
@@ -101,7 +113,7 @@ def alcohol_vs_quanity(df):
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['bottom'].set_visible(False)
-        # Remove the ticks (not labels) of the x-axis
+    # Remove the ticks (not labels) of the x-axis
     plt.tick_params(axis='x', which='both', bottom=False, top=False)
 
     plt.ylim(8, 13)

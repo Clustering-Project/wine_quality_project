@@ -18,11 +18,13 @@ def acquire_wine():
     # Concatenate the df_red and df_white dataframes vertically, ignoring the original indices, and assign the result to the df dataframe
     df = pd.concat([df_red, df_white], ignore_index=True, axis=0)
     
+    df.columns = [col.lower().replace(' ', '_').replace('.', '_') for col in df.columns]
+    
     return df
 
-def prepare_wine(df):
-    df.columns = [col.lower().replace(' ', '_').replace('.', '_') for col in df.columns]
-    return df
+# def prepare_wine(df):
+#     df.columns = [col.lower().replace(' ', '_').replace('.', '_') for col in df.columns]
+#     return df
 
 def wine_train_val_test(df, seed = 42):
 
@@ -37,8 +39,9 @@ def wine_train_val_test(df, seed = 42):
 
 def wrangle_wine():
     df = acquire_wine()
-    df = prepare_wine(df)
+    
     train, val, test = wine_train_val_test(df, seed = 42)
+    
     return train, val, test
 
 
