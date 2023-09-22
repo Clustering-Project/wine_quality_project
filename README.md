@@ -1,17 +1,16 @@
 # wine_quality_project
 First team project!
 
-# Regression-Model-Project
-
 ## Goal
 
-* The purpose of this model is to group wines into clusters based on their similarities in terms of the selected features.
-* My goal is to find specific features that have similarities and group those features and label them using a clustering model.
+* Find specific features that have similarities and group those features and label them using a clustering model.
+* The purpose of the regression model is to predict quality based off features including those that the cluster model generated.
 
 ## Initial hypotheses
 
-* Null Hypothesis: features do not have similarities based off target variable.
-* Alternative Hypothesis: features have similarities based off target variable.
+H0: There is no significant association between the quality of the wine and the Alcohol/Density Cluster.
+
+Ha: There is a significant association between the quality of the wine and the Alcohol/Density Cluster.
 
 ## Data dictionary
 
@@ -34,35 +33,51 @@ First team project!
 ## Planning:
 Questions to ask about the data set based off of what I want my model to predict: 
 - Do any features have a correlation with quality?. 
-- What features significantly affect quality?
+- Do cluster enhance performamce?
+- What model is best for predicting quality?
 
 - Final report should be in .ipynb, Modules should be in .py.
-- Audience will be lead data scientist.
+- Audience will be data scientist team.
 - Determine correlation between features and target variable.
 - Develop my null hypothsisis and alternative hypothesis.
 - Explore data using visuals and statistical tests.
-- create model.
+- Create cluster model.
+- Create regression model
   
 ## Acquisition:
-- I registered an account at data.world and downloaded the wine-quality dataset into a csv.
-- I used pandas to read in the data onto a jupyter notebook.
+- Registered an account at data.world and downloaded the wine-quality dataset into a csv.
+- Used pandas to read in the csv file onto a jupyter notebook.
 
 ## Preparation:
-- replaced blank spaces with underscores for columns.
+- Replaced blank spaces with underscores for columns.
 
 ## Exploration & pre-processing:
-- Made visuals and used stats to understand which features had a significant correlation, relationship
-
+- Made visuals and used stats to understand which features had a significant correlation, relationship with the target variable.
+- Used top 2 features (alcohol, density) to create cluster
 
 ## Modeling:
--
+- Created a regression model to predict quality of wine.
+- The random forest regressor model on unscaled data without using clustered features has the best performance in predicting wine quality.  
+
+Baseline = .88
+
+Test RMSE = .60
 
 ## Delivery:
 - Deployed my model and a created a reproducable report
 - Made recommendations
+- Created canva slides for storytelling
 
 ## Key findings, recommendations, and takeaways
-- alcohol seems to be a key driver for quality.
+- Decrease in density improves quality
+- Increase in alcohol percentage impoves quality
+- Decrease in density improves quality
+- Clusters using top 2 key features do not have significant impact on regression performance.
+
+Recommend: 
+- Tune hyperparameters
+- Feature engineering
+- More clusters
 
 ## Instructions or an explanation of how someone else can reproduce project and findings
 
