@@ -389,11 +389,20 @@ def data_pipeline_features():
 # -----------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------
 
-def bravo_pipeline():
+def bravo_pipeline(quality_bins=False):
     df = acquire_wine()
 
     df = df[df.density <= 1.01]
     df = df[df.alcohol <= 14.04]
+
+    if quality_bins:
+        # Define custom labels for "quality"
+        bins_q = [3, 5, 6, 9]
+        labels_q = ['Low', 'Med', 'High']
+
+        # Create a new column "quality_bins" to store the bin labels
+        df['quality_bins'] = pd.cut(df['quality'], bins=bins_q, labels=labels_q)
+    
     
     mms = MinMaxScaler()
     # Select columns to scale (excluding 'value')
@@ -408,13 +417,18 @@ def bravo_pipeline():
     kmeans.fit(features)
 
     df['alc_dens_cluster'] = kmeans.labels_
-
-    train, val, test = wine_train_val_test(df)
     
     #train, val, test = scale_train_val_test(train, val, test)
-    train = hot_encode(train)
-    val = hot_encode(val)
-    test = hot_encode(test)
+    train, val, test = wine_train_val_test(df)
+    
+    train = pd.get_dummies(train, drop_first=False)
+    val = pd.get_dummies(val, drop_first=False)
+    test = pd.get_dummies(test, drop_first=False)
+    
+    
+    train.drop('type_red', axis=1, inplace=True)
+    val.drop('type_red', axis=1, inplace=True)
+    test.drop('type_red', axis=1, inplace=True)
     
     X_train, y_train = xy_split(train)
     X_val, y_val = xy_split(val)
